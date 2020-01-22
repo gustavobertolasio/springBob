@@ -18,11 +18,9 @@ import com.exercicio.modelagembanco.domain.entity.Evento;
 import com.exercicio.modelagembanco.domain.entity.Participacao;
 import com.exercicio.modelagembanco.domain.entity.StatusEvento;
 import com.exercicio.modelagembanco.exception.DataNotFoundException;
-import com.exercicio.modelagembanco.repository.CategoriaEventoRepository;
+import com.exercicio.modelagembanco.repository.EventoRepository;
 import com.exercicio.modelagembanco.repository.ParticipacaoRepository;
-import com.exercicio.modelagembanco.repository.StatusEventoRepository;
 
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -42,6 +40,11 @@ public class ParticipacaoServiceTest {
 
     @Mock
     private ParticipacaoRepository repositoryMock;
+
+    @Mock
+    private EventoRepository eventoRepositoryMock;
+    @Mock
+    private EventoService eventoServiceMock;
 
     @InjectMocks
     private ParticipacaoService service;
@@ -96,5 +99,14 @@ public class ParticipacaoServiceTest {
         expected.expectMessage("Participacao not found");
         
         service.deleteParticipacao(anyInt());
+    }
+    @Test
+    public void should_ThrowDataNotFoundException_WhenSavingParticipacaoInANonExistingEvento(){
+      doThrow(new DataNotFoundException("Evento not found")).when(eventoServiceMock).findEvento(anyInt());
+
+        expected.expect(DataNotFoundException.class);
+        expected.expectMessage("Evento not found");
+        
+        service.saveParticipacao(participacao, anyInt());
     }
 }

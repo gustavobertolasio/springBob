@@ -3,7 +3,6 @@ package com.exercicio.modelagembanco.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,13 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.exercicio.modelagembanco.domain.entity.CategoriaEvento;
 import com.exercicio.modelagembanco.domain.entity.StatusEvento;
 import com.exercicio.modelagembanco.exception.DataNotFoundException;
-import com.exercicio.modelagembanco.repository.CategoriaEventoRepository;
 import com.exercicio.modelagembanco.repository.StatusEventoRepository;
 
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
