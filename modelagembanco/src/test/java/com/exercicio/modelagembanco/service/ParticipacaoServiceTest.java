@@ -18,6 +18,7 @@ import com.exercicio.modelagembanco.domain.entity.Evento;
 import com.exercicio.modelagembanco.domain.entity.Participacao;
 import com.exercicio.modelagembanco.domain.entity.StatusEvento;
 import com.exercicio.modelagembanco.exception.DataNotFoundException;
+import com.exercicio.modelagembanco.exception.ParticipacaoNotCreatedException;
 import com.exercicio.modelagembanco.repository.EventoRepository;
 import com.exercicio.modelagembanco.repository.ParticipacaoRepository;
 
@@ -51,7 +52,7 @@ public class ParticipacaoServiceTest {
 
     StatusEvento status = new StatusEvento(2, "Some string");
     CategoriaEvento cateEvento = new CategoriaEvento(1, "Some string");
-    Evento evento = new Evento(1, status, cateEvento, "Oi", new Date(), new Date(), "oi", "oi", 10);
+    Evento evento = new Evento(1, status, cateEvento, "Oi", new Date(), new Date(), "oi", "oi", 1);
     Participacao participacao = new Participacao(1, evento, "", false, null, "");
 
     @Test
@@ -88,25 +89,54 @@ public class ParticipacaoServiceTest {
     }
 
     @Test
-    public void should_DeleteParticipacao_WhenDeleting(){
+    public void should_DeleteParticipacao_WhenDeleting() {
         service.deleteParticipacao(anyInt());
     }
+
     @Test
-    public void should_ThrowDataNotFoundException_WhenDeleting(){
+    public void should_ThrowDataNotFoundException_WhenDeleting() {
         doThrow(new DataNotFoundException("Participacao not found")).when(repositoryMock).deleteById(anyInt());
 
-        expected.expect( DataNotFoundException.class);
+        expected.expect(DataNotFoundException.class);
         expected.expectMessage("Participacao not found");
-        
+
         service.deleteParticipacao(anyInt());
     }
+
     @Test
-    public void should_ThrowDataNotFoundException_WhenSavingParticipacaoInANonExistingEvento(){
-      doThrow(new DataNotFoundException("Evento not found")).when(eventoServiceMock).findEvento(anyInt());
+    public void should_ThrowDataNotFoundException_WhenSavingParticipacaoInANonExistingEvento() {
+        doThrow(new DataNotFoundException("Evento not found")).when(eventoServiceMock).findEvento(anyInt());
 
         expected.expect(DataNotFoundException.class);
         expected.expectMessage("Evento not found");
-        
+
         service.saveParticipacao(participacao, anyInt());
+    }
+
+    @Test
+    public void should_ThrowParticipacaoNotCreatedException_WhenSavingParticipacaoWithExceededLimiteVagas() {
+
+        List<Participacao> partList = new ArrayList<>();
+        partList.add(participacao);
+        when(repositoryMock.findByevento(anyInt())).thenReturn(partList);
+        when(eventoServiceMock.findEvento(anyInt())).thenReturn(evento);
+
+        expected.expect(ParticipacaoNotCreatedException.class);
+        expected.expectMessage("Não há mais vagas nesse evento");
+
+        service.saveParticipacao(participacao, anyInt());
+    }
+    @Test
+    public void should_SaveParticipacao_WhenSavingParticipacao() {
+        List<Participacao> partList = new ArrayList<>();
+        when(repositoryMock.findByevento(anyInt())).thenReturn(partList);
+        when(eventoServiceMock.findEvento(anyInt())).thenReturn(evento);
+        when(repositoryMock.save(participacao)).thenReturn(participacao);
+        
+    
+       Participacao part = service.saveParticipacao(participacao, anyInt());
+
+        verify(repositoryMock, times(1)).save(participacao);
+        assertNotNull(part);
     }
 }
