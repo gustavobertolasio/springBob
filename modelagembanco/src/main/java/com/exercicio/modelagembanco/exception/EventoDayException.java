@@ -15,7 +15,5 @@ public class EventoDayException extends RuntimeException {
         super(message);
     }
 
-    public EventoDayException(String message, Throwable e) {
-        super(message, e);
-    }
+ 
 } 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * EventoController
@@ -39,7 +40,7 @@ public class StatusEventoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StatusEventoResponse> findStatusEvento(@Valid @RequestParam Integer id) {
+    public ResponseEntity<StatusEventoResponse> findStatusEvento(@Valid @PathVariable Integer id) {
         return ResponseEntity.ok(mapper.toDto(statusEventoService.findStatusEvento(id)));
     }
 

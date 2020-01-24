@@ -26,7 +26,6 @@ public class StatusEventoService {
 
     public StatusEvento findStatusEvento(Integer id){
     Optional<StatusEvento> categoriaEvento = statusEventoRepository.findById(id);
-    System.out.println(categoriaEvento);
         return categoriaEvento.orElseThrow(() -> new DataNotFoundException("StatusEvento not found"));
     }
 }

@@ -38,10 +38,10 @@ public class Participacao {
     @Column(name = "FlagPresente", nullable = false)
     private Boolean flagPresente;
 
-    @Column(name = "Nota", nullable = false)
+    @Column(name = "Nota")
     private Integer nota;
 
-    @Column(name = "Comentario", nullable = false, length = 250)
+    @Column(name = "Comentario", length = 250)
     private String comentario;
 
 }

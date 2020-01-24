@@ -155,39 +155,7 @@ public class ParticipacaoServiceTest {
         assertEquals(1, part.size());
     }
 
-    @Test
-    public void should_throwComentarioNotUpdatedException_WhenFlagPresenteNotTrue() {
-        Participacao part = new Participacao(1, new Evento(), "loginParticipante", false, 9, "boa");
-        when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(participacao));
-
-        expected.expect(ComentarioNotUpdatedException.class);
-        expected.expectMessage("Só é possível comentar ou dar nota após o administrador marcar sua presença");
-
-        service.updateParticipacao(part, 1);
-    }
-
-
-
-    @Test
-    public void should_throwComentarioNotUpdatedExceptionOnceAgain_WhenFlagPresenteNotTrue() {
-        Participacao part = new Participacao(1, new Evento(), "loginParticipante", false, null, "null");
-        when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(part));
-
-        expected.expect(ComentarioNotUpdatedException.class);
-        expected.expectMessage("Só é possível comentar ou dar nota após o administrador marcar sua presença");
-
-        service.updateParticipacao(part, 1);
-    }
-    @Test
-    public void should_throwComentarioNotUpdatedExceptionOnceAgain_WhenFlagPresenteNotTrueAndEverythingIsNull() {
-        Participacao part = new Participacao(1, new Evento(), "loginParticipante", false, null, null);
-        when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(part));
-
-        expected.expect(ComentarioNotUpdatedException.class);
-        expected.expectMessage("Só é possível comentar ou dar nota após o administrador marcar sua presença");
-
-        service.updateParticipacao(part, 1);
-    }
+  
 
     @Test
     public void should_throwComentarioNotUpdatedExceptionLastTime_WhenFlagPresenteNotTrue() {

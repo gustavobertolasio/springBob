@@ -15,7 +15,4 @@ public class EventoNotUpdatedException extends RuntimeException {
         super(message);
     }
 
-    public EventoNotUpdatedException(String message, Throwable e) {
-        super(message, e);
-    }
 } 

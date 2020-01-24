@@ -15,7 +15,4 @@ public class ParticipacaoNotCreatedException extends RuntimeException {
         super(message);
     }
 
-    public ParticipacaoNotCreatedException(String message, Throwable e) {
-        super(message, e);
-    }
-} 
+}

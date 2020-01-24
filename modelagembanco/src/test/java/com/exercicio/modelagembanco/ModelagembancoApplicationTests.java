@@ -9,6 +9,7 @@ public class ModelagembancoApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		ModelagembancoApplication.main(new String[] {});
 	}
 
 }

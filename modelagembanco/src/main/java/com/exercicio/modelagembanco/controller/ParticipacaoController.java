@@ -61,7 +61,7 @@ public class ParticipacaoController {
     }
 
     @GetMapping(value = "/{idEvento}")
-    public ResponseEntity<List<ParticipacaoResponse>> findParticipacoesByEventoId(@Valid @RequestParam Integer idEvento) {
+    public ResponseEntity<List<ParticipacaoResponse>> findParticipacoesByEventoId(@Valid @PathVariable  Integer idEvento) {
         return ResponseEntity.ok(participacaoService.findParticipacoesByEventoId(idEvento).stream().map(x -> mapper.toDto(x))
                 .collect(Collectors.toList()));
     }

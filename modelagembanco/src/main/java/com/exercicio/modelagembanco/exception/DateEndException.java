@@ -15,7 +15,5 @@ public class DateEndException extends RuntimeException {
         super(message);
     }
 
-    public DateEndException(String message, Throwable e) {
-        super(message, e);
-    }
+
 } 

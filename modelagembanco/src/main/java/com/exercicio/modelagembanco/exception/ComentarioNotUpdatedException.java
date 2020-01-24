@@ -15,7 +15,5 @@ public class ComentarioNotUpdatedException extends RuntimeException {
         super(message);
     }
 
-    public ComentarioNotUpdatedException(String message, Throwable e) {
-        super(message, e);
-    }
+
 } 

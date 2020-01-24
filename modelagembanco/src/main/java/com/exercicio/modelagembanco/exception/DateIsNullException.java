@@ -15,7 +15,5 @@ public class DateIsNullException extends RuntimeException {
         super(message);
     }
 
-    public DateIsNullException(String message, Throwable e) {
-        super(message, e);
-    }
+   
 } 

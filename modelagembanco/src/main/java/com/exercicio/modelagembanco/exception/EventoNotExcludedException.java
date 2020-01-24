@@ -15,7 +15,5 @@ public class EventoNotExcludedException extends RuntimeException {
         super(message);
     }
 
-    public EventoNotExcludedException(String message, Throwable e) {
-        super(message, e);
-    }
+
 } 

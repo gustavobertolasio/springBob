@@ -65,12 +65,9 @@ public class ParticipacaoService {
     public Participacao updateParticipacao(Participacao participacao, Integer idParticipacao) {
         Participacao auxParticipacao = findParticipacao(idParticipacao);
 
-        if (auxParticipacao.getFlagPresente() == false
-                && ((participacao.getComentario() != null && participacao.getNota() != null
-                        || (participacao.getComentario() == null || participacao.getNota() == null)))) {
-            throw new ComentarioNotUpdatedException(
-                    "Só é possível comentar ou dar nota após o administrador marcar sua presença");
-        }
+        if (auxParticipacao.getFlagPresente() == false)
+                   throw new ComentarioNotUpdatedException("Só é possível comentar ou dar nota após o administrador marcar sua presença");
+        
 
         auxParticipacao.setComentario(participacao.getComentario());
         auxParticipacao.setNota(participacao.getNota());
