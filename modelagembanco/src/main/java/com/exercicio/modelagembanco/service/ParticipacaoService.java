@@ -36,14 +36,21 @@ public class ParticipacaoService {
         return participacao.orElseThrow(() -> new DataNotFoundException("Participacao not found"));
     }
 
+    public List<Participacao> findParticipacoesByEventoId(Integer id) {
+        return participacaoRepository.findByEvento(eventoService.findEvento(id));
+    }
+
     public Participacao saveParticipacao(Participacao participacao, Integer idEvento) {
         Evento event = eventoService.findEvento(idEvento);
-        List<Participacao> participacoesEvento = participacaoRepository.findByevento(idEvento);
+        // List<Participacao> participacoesEvento =
+        // participacaoRepository.findByEvento(event);
+        Integer participacoesEvento = participacaoRepository.countByEvento(event);
 
-        if (event.getLimiteVagas() <= participacoesEvento.size())
+        if (event.getLimiteVagas() <= participacoesEvento)
             throw new ParticipacaoNotCreatedException("Não há mais vagas nesse evento");
 
         participacao.setEvento(event);
+        participacao.setFlagPresente(false);
         return participacaoRepository.save(participacao);
     }
 
@@ -59,14 +66,24 @@ public class ParticipacaoService {
         Participacao auxParticipacao = findParticipacao(idParticipacao);
 
         if (auxParticipacao.getFlagPresente() == false
-                && (!participacao.getComentario().isEmpty() || !participacao.getNota().toString().isEmpty())) {
+                && ((participacao.getComentario() != null && participacao.getNota() != null
+                        || (participacao.getComentario() == null || participacao.getNota() == null)))) {
             throw new ComentarioNotUpdatedException(
                     "Só é possível comentar ou dar nota após o administrador marcar sua presença");
         }
 
         auxParticipacao.setComentario(participacao.getComentario());
-        auxParticipacao.setFlagPresente(participacao.getFlagPresente());
         auxParticipacao.setNota(participacao.getNota());
-        return participacaoRepository.save(participacao);
+        return participacaoRepository.save(auxParticipacao);
+    }
+
+    public Participacao flagParticipacao(Integer idParticipacao) {
+        Participacao auxParticipacao = findParticipacao(idParticipacao);
+        auxParticipacao.setFlagPresente(true);
+        return participacaoRepository.save(auxParticipacao);
+    }
+
+    public Integer countParticipacoes(Evento evento) {
+        return participacaoRepository.countByEvento(evento);
     }
 }

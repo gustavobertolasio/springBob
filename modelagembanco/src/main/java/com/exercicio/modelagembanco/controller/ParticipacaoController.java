@@ -1,5 +1,8 @@
 package com.exercicio.modelagembanco.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import com.exercicio.modelagembanco.domain.dto.request.ParticipacaoCreateRequest;
@@ -44,22 +47,28 @@ public class ParticipacaoController {
                 .ok(mapper.toDto(participacaoService.saveParticipacao(participacao, entity.getIdEvento())));
     }
 
-    @PutMapping
-    public ResponseEntity<ParticipacaoResponse> putParticipacao(@Valid @PathVariable Integer id,
+    @PutMapping(value = "/{idParticipacao}")
+    public ResponseEntity<ParticipacaoResponse> flagParticipacao(@Valid @PathVariable Integer idParticipacao) {
+        // Participacao participacao = mapper.fromDtoUpdate(entity);
+        return ResponseEntity.ok(mapper.toDto(participacaoService.flagParticipacao(idParticipacao)));
+    }
+
+    @PutMapping(value = "comentarioenota/{idParticipacao}")
+    public ResponseEntity<ParticipacaoResponse> updateNotaEComentario(@Valid @PathVariable Integer idParticipacao,
             @Valid @RequestBody ParticipacaoUpdateRequest entity) {
-        Participacao participacao = mapper.fromDtoUpdate(entity);
-        return ResponseEntity.ok(mapper.toDto(participacaoService.updateParticipacao(participacao, id)));
+         Participacao participacao = mapper.fromDtoUpdate(entity);
+        return ResponseEntity.ok(mapper.toDto(participacaoService.updateParticipacao(participacao, idParticipacao)));
     }
 
-    @GetMapping
-    public ResponseEntity<ParticipacaoResponse> findEventoId(@Valid @RequestParam Integer id) {
-        return ResponseEntity.ok(mapper.toDto(participacaoService.findParticipacao(id)));
+    @GetMapping(value = "/{idEvento}")
+    public ResponseEntity<List<ParticipacaoResponse>> findParticipacoesByEventoId(@Valid @RequestParam Integer idEvento) {
+        return ResponseEntity.ok(participacaoService.findParticipacoesByEventoId(idEvento).stream().map(x -> mapper.toDto(x))
+                .collect(Collectors.toList()));
     }
 
-    @DeleteMapping(value = "/{id}")
-    public String deleteEvento(@Valid @PathVariable Integer id) {
-        participacaoService.findParticipacao(id);
-        participacaoService.deleteParticipacao(id);
+    @DeleteMapping(value = "/{idParticipacao}")
+    public String deleteEvento(@Valid @PathVariable Integer idParticipacao) {
+        participacaoService.deleteParticipacao(idParticipacao);
         return "Deletado com sucesso";
     }
 

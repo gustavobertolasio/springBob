@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ParticipacaoUpdateRequest {
-    private Integer Nota;
+    private Integer nota;
 
-    private Boolean FlagPresente;
-
-    private String Comentario;
+    private String comentario;
 }

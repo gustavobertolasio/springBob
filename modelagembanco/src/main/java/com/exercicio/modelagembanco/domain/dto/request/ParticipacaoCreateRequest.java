@@ -16,13 +16,7 @@ public class ParticipacaoCreateRequest {
     // private Integer IdParticipacao;
 
     @NotNull(message = "EventoId is required")
-    private Integer IdEvento;
+    private Integer idEvento;
     @NotEmpty(message = "LoginParticipante is required")
-    private String LoginParticipante;
-    @NotNull(message = "FlagPresente is required")
-    private Boolean FlagPresente;
-    @NotNull(message = "Nota is required")
-    private Integer Nota;
-
-    private String Comentario;
-}
+    private String loginParticipante;
+   }

@@ -66,8 +66,7 @@ public class EventoController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public String deleteEvento(@Valid @PathVariable Integer id) {
-        eventoService.deleteEvento(id);
-        return "Deletado com sucesso";
+    public ResponseEntity<EventoResponse> deleteEvento(@Valid @PathVariable Integer id) {        
+        return ResponseEntity.ok(mapper.toDto(eventoService.deleteEvento(id)));
     }
 }

@@ -24,6 +24,7 @@ public class EventoService {
     private final EventoRepository eventoRepository;
     private final CategoriaEventoService categoriaEventoService;
     private final StatusEventoService statusEventoService;
+    // private final ParticipacaoService participacaoService;
     Date diaAtual = new Date();
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -31,9 +32,10 @@ public class EventoService {
     public EventoService(EventoRepository eventoRepository, StatusEventoService statusEventoService,
             CategoriaEventoService categoriaEventoService) {
         this.eventoRepository = eventoRepository;
-
         this.statusEventoService = statusEventoService;
         this.categoriaEventoService = categoriaEventoService;
+
+        // this.participacaoService = participacaoService;
     }
 
     public List<Evento> getList() {
@@ -91,12 +93,16 @@ public class EventoService {
         return eventoRepository.save(auxEvento);
     }
 
-    public void deleteEvento(Integer id) {
-        findEvento(id);
-        try {
-            eventoRepository.deleteById(id);
-        } catch (Exception e) {
+    public Evento deleteEvento(Integer id) {
+
+        Evento evento = findEvento(id);
+        Integer participacoes = eventoRepository.countParticipacoesInEvento(id);
+
+        if (participacoes > 0)
             throw new EventoNotExcludedException("Evento já com participação");
-        }
+
+        evento.setStatusEvento(statusEventoService.findStatusEvento(4));
+        return eventoRepository.save(evento);
     }
+
 }
