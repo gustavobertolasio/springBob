@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,10 +62,11 @@ public class EventoServiceTest {
 
     StatusEvento status = new StatusEvento(2, "Some string");
     CategoriaEvento cateEvento = new CategoriaEvento(1, "Some string");
+    Date dataHoje = new Date();
 
     @Before
     public void reseta() {
-        evento = new Evento(1, status, cateEvento, "Oi", new Date(), new Date(), "oi", "oi", 10);
+        evento = new Evento(1, status, cateEvento, "Oi", dataHoje, dataHoje, "oi", "oi", 10);
     }
 
     static Evento evento;
@@ -83,6 +85,35 @@ public class EventoServiceTest {
         verify(repositoryMock, times(1)).findAll();
         assertNotNull(list);
         assertEquals("Array deve ser de tamanho 1", 1, list.size());
+    }
+
+    @Test
+    public void should_getEventoList_WhenInDateRange() {
+
+    //     List<Evento> listEvento = new ArrayList<>();
+    //     listEvento.add(evento);
+    //     Calendar cal = Calendar.getInstance();
+    //     cal.setTime(dataHoje);
+
+    //     String mes = cal.get(Calendar.MONTH) < 9 ? "0" + (cal.get(Calendar.MONTH) + 1)
+    //             : "" + (cal.get(Calendar.MONTH) + 1);
+    //     String data = "" + cal.get(Calendar.DAY_OF_MONTH) + "" + mes +"" + cal.get(Calendar.YEAR);
+    //     // given
+    //     when(repositoryMock.findByDate(dataHoje)).thenReturn(listEvento);
+
+    //     // when
+    //     List<Evento> list = new ArrayList<>();
+    //     try {
+    //         list = service.findByDate(data);
+    //     } catch (ParseException e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+
+    //     // then
+    //  //   verify(repositoryMock, times(1)).findByDate(dataHoje);
+    //     assertNotNull(list);
+    //     assertEquals("Array deve ser de tamanho 1", 1, list.size());
     }
 
     @Test
@@ -170,7 +201,7 @@ public class EventoServiceTest {
         when(repositoryMock.save(evento)).thenReturn(evento);
         Evento aux = service.updateEvento(evento, 1, 2);
 
-        verify(repositoryMock,times(1)).save(evento);
+        verify(repositoryMock, times(1)).save(evento);
         assertNotNull(aux);
     }
 
@@ -197,7 +228,7 @@ public class EventoServiceTest {
 
         Evento aux = service.updateEvento(evento, 1, 4);
 
-        verify(repositoryMock,times(1)).save(evento);
+        verify(repositoryMock, times(1)).save(evento);
         assertNotNull(aux);
     }
 
@@ -212,6 +243,7 @@ public class EventoServiceTest {
 
         service.updateEvento(evento, 1, 3);
     }
+
     @Test
     public void should_FinishEvento_WhenEventoBegin() {
         evento.setStatusEvento(new StatusEvento(2, "Ihi"));
@@ -220,7 +252,7 @@ public class EventoServiceTest {
 
         Evento aux = service.updateEvento(evento, 1, 3);
 
-        verify(repositoryMock,times(1)).save(evento);
+        verify(repositoryMock, times(1)).save(evento);
         assertNotNull(aux);
     }
 
@@ -235,7 +267,6 @@ public class EventoServiceTest {
     public void should_ThrowEventoNotExcluded_WhenDeletingEventoWithParticipacao() {
         when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(evento));
         when(repositoryMock.countParticipacoesInEvento(anyInt())).thenReturn(5);
-      
 
         expected.expect(EventoNotExcludedException.class);
         expected.expectMessage("Evento já com participação");
@@ -245,15 +276,15 @@ public class EventoServiceTest {
 
     @Test
     public void should_GetEventoListByCategoria() {
-    /************************************* */
-    List<Evento> eventoList = new ArrayList<>();
-    eventoList.add((evento));
+        /************************************* */
+        List<Evento> eventoList = new ArrayList<>();
+        eventoList.add((evento));
 
-    when(cateService.findCategoriaEvento(anyInt())).thenReturn(cateEvento);
-    when(repositoryMock.findBycategoriaEvento(cateEvento)).thenReturn(eventoList);
+        when(cateService.findCategoriaEvento(anyInt())).thenReturn(cateEvento);
+        when(repositoryMock.findBycategoriaEvento(cateEvento)).thenReturn(eventoList);
 
-    List<Evento> evList = service.findEventosByCategoria(anyInt());
+        List<Evento> evList = service.findEventosByCategoria(anyInt());
 
-     assertNotNull(evList);
+        assertNotNull(evList);
     }
 }

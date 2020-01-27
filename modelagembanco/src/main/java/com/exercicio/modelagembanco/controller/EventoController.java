@@ -1,5 +1,7 @@
 package com.exercicio.modelagembanco.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * EventoController
@@ -46,9 +49,16 @@ public class EventoController {
                 .ok(eventoService.getList().stream().map(x -> mapper.toDto(x)).collect(Collectors.toList()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<EventoResponse>> listEventoByCategoria(@Valid @RequestParam Integer id) {
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<List<EventoResponse>> listEventoByCategoria(@Valid @PathVariable Integer id) {
         return ResponseEntity.ok((eventoService.findEventosByCategoria(id).stream().map(x -> mapper.toDto(x))
+                .collect(Collectors.toList())));
+    }
+
+    @GetMapping("/data")
+    public ResponseEntity<List<EventoResponse>> listEventoByData(@Valid @RequestParam String date)
+            throws ParseException {
+        return ResponseEntity.ok((eventoService.findByDate(date).stream().map(x -> mapper.toDto(x))
                 .collect(Collectors.toList())));
     }
 

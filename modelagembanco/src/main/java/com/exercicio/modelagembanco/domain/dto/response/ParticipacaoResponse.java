@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ParticipacaoResponse {
 
-    private Integer IdParticipacao;
-    private Evento Evento;
-    private String LoginParticipante;
-    private Boolean FlagPresente;
-    private Integer Nota;
-    private String Comentario;
+    private Integer idParticipacao;
+    private Evento evento;
+    private String loginParticipante;
+    private Boolean flagPresente;
+    private Integer nota;
+    private String comentario;
 }

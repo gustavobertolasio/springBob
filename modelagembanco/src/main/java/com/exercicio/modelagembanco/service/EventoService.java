@@ -1,5 +1,6 @@
 package com.exercicio.modelagembanco.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,6 +52,11 @@ public class EventoService {
         return eventoRepository.findBycategoriaEvento(categoriaEventoService.findCategoriaEvento(id));
     }
 
+    public List<Evento> findByDate(String data) throws ParseException {
+        SimpleDateFormat date = new SimpleDateFormat("ddMMyyyy"); 
+        return eventoRepository.findByDate(date.parse(data));
+    }
+
     public Evento saveEvento(Evento evento, Integer idCategoriaEvento) {
 
         Calendar dataHoraInicio = Calendar.getInstance();
@@ -87,7 +93,7 @@ public class EventoService {
         auxEvento.setDescricao(evento.getDescricao());
         auxEvento.setLocal(evento.getLocal());
         auxEvento.setLimiteVagas(evento.getLimiteVagas());
-        auxEvento.setStatusEvento(statusEventoService.findStatusEvento(id));
+        auxEvento.setStatusEvento(statusEventoService.findStatusEvento(idStatusEvento));
         auxEvento.setNome(evento.getNome());
 
         return eventoRepository.save(auxEvento);
