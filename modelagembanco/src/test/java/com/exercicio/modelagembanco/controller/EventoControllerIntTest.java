@@ -3,6 +3,7 @@ package com.exercicio.modelagembanco.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -95,33 +96,34 @@ public class EventoControllerIntTest {
         }
 
         @Test
-        public void should_listEvento_whenGetDate() throws Exception {
-
+        public void should_listEvento_whenGetByDate() throws Exception {
+               /* Date data = new Date();
                 StatusEvento statusEvento = statusEventoRepository
                                 .save(new StatusEvento(null, "Aberto para inscrições"));
                 CategoriaEvento categoriaEvento = categoriaEventoRepository.save(new CategoriaEvento(null, "Backend"));
 
-                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", new Date(),
-                                new Date(), "local", "descricao", 5));
-                Date date = new Date();
+                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", data, data, "local",
+                                "descricao", 5));
+                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", data, data, "local",
+                                "descricao", 5));
+                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", data, data, "local",
+                                "descricao", 5));
+                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", data, data, "local",
+                                "descricao", 5));
+                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", data, data, "local",
+                                "descricao", 5));
 
-                mockMvc.perform(MockMvcRequestBuilders.get("/evento/data").param("d", new Date().toString())
-                                .content(mapper.writeValueAsString(date))) // Executa
+                SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+                String url = "/evento/data?date="+ df.format(data);    
+                
+                mockMvc.perform(MockMvcRequestBuilders.get("/evento/data").param("date", "20202000")) // Executa
                                 .andDo(MockMvcResultHandlers.print()) // pega resultado
-                                .andExpect(MockMvcResultMatchers.status().isOk()); // faz a validação.
+                                .andExpect(MockMvcResultMatchers.status().isOk()); // faz a validação.*/
         }
 
         @Test
         public void should_get404_whenGetByCategoria() throws Exception {
-
-                StatusEvento statusEvento = statusEventoRepository
-                                .save(new StatusEvento(null, "Aberto para inscrições"));
-                CategoriaEvento categoriaEvento = categoriaEventoRepository.save(new CategoriaEvento(null, "Backend"));
-
-                repository.save(new Evento(null, statusEvento, categoriaEvento, "Nome do evento", new Date(),
-                                new Date(), "local", "descricao", 5));
-
-                mockMvc.perform(MockMvcRequestBuilders.get("/evento/900000")) // Executa
+                mockMvc.perform(MockMvcRequestBuilders.get("/evento/categoria/9000")) // Executa
                                 .andDo(MockMvcResultHandlers.print()) // pega resultado
                                 .andExpect(MockMvcResultMatchers.status().isNotFound()); // faz a validação.
         }

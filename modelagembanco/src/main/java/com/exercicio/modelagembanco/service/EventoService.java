@@ -53,8 +53,8 @@ public class EventoService {
     }
 
     public List<Evento> findByDate(String data) throws ParseException {
-        SimpleDateFormat date = new SimpleDateFormat("ddMMyyyy"); 
-        return eventoRepository.findByDate(date.parse(data));
+        String dataEmString = data.substring(0, 2) + "/" + data.substring(2, 4) + "/" + data.substring(4);
+        return eventoRepository.findByDate(dataEmString);
     }
 
     public Evento saveEvento(Evento evento, Integer idCategoriaEvento) {

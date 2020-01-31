@@ -56,7 +56,7 @@ public class EventoController {
     }
 
     @GetMapping("/data")
-    public ResponseEntity<List<EventoResponse>> listEventoByData(@Valid @RequestParam String date)
+    public ResponseEntity<List<EventoResponse>> listEventoByData(@Valid @RequestParam(value ="date") String date)
             throws ParseException {
         return ResponseEntity.ok((eventoService.findByDate(date).stream().map(x -> mapper.toDto(x))
                 .collect(Collectors.toList())));
